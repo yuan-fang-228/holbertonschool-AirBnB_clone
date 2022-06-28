@@ -62,6 +62,12 @@ class HBNBCommand(cmd.Cmd):
         if arg[0] not in classes:
             print("** class doesn't exist **")
             return False
+        else:
+            key = arg[0] + "." + arg[1]
+            if key in models.storage.all():
+                print(models.storage.all()[key])
+            else:
+                print("** no instance found **")
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id\n"""
@@ -78,10 +84,31 @@ class HBNBCommand(cmd.Cmd):
         if arg[0] not in classes:
             print("** class doesn't exist **")
             return False
+        else:
+            key = arg[0] + "." + arg[1]
+            if key in models.storage.all():
+                del(models.storage.all()[key])
+                models.storage.save
+            else:
+                print("** no instance found **")
 
     def do_all(self, args):
         """Prints all string representation of all instances
         Based or not on the class name\n"""
+        arg = args.split()
+        objList = []
+        if len(args) == 0:
+            for key in models.storage.all():
+                objList.append(str(models.storage.all()[key]))
+            print(objList)
+        if len(arg) == 1:
+            if arg[0] in classes:
+                for key in models.storage.all():
+                    if arg[0] in key:
+                        objList.append(str(models.storage.all()[key]))
+                print(objList)
+            else:
+                print("** class doesn't exist **")
 
     def do_update(self, args):
         """Updates an instance
@@ -106,6 +133,13 @@ class HBNBCommand(cmd.Cmd):
         if arg[0] not in classes:
             print("** class doesn't exist **")
             return False
+        else:
+            key = arg[0] + "." + arg[1]
+            if key in models.storage.all():
+                setattr(models.storage.all()[key], arg[2], arg[3])
+                models.storage.save()
+            else:
+                print("** no instance found **")
 
 
 if __name__ == '__main__':
