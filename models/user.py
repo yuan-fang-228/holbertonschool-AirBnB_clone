@@ -4,8 +4,14 @@
 from models.base_model import BaseModel
 
 
-class User:
+class User(BaseModel):
     """
         User class for the Airbnb project
+        with class attributes
     """
-    pass
+  
+    email = ""
+    password = ""
+    first_name = ""
+    last_name = ""
+
