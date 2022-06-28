@@ -30,10 +30,13 @@ class HBNBCommand(cmd.Cmd):
     def do_create(self, args):
         """Creates a new instance of BaseModel
         saves it (to the JSON file) and prints the id\n"""
-        if len(arg) == 0:
+        arg = args.split()
+        if len(args) == 0:
             print("** class name missing **")
             return False
-        if arg in classes:
+        if len(arg) > 1:
+            raise TypeError("Incorrect number of arguments")
+        if args in classes:
             instance = eval(str(args) + "()")
             instance.save()
             print(instance.id)
@@ -47,11 +50,11 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if len(arg) != 2:
-            raise TypeError("Incorrect number of arguments")
-            return False
-        if len(arg[1]) == 0:
+        if len(arg) == 1 :
             print("** instance id missing **")
+            return False
+        if len(arg) > 2:
+            raise TypeError("Incorrect number of arguments")
             return False
         if arg[0] not in classes:
             print("** class doesn't exist **")
@@ -63,11 +66,11 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if len(arg) != 2:
-            raise TypeError("Incorrect number of arguments")
-            return False
-        if len(arg[1]) == 0:
+        if len(arg) == 1 :
             print("** instance id missing **")
+            return False
+        if len(arg) > 2:
+            raise TypeError("Incorrect number of arguments")
             return False
         if arg[0] not in classes:
             print("** class doesn't exist **")
@@ -94,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
         if len(arg) == 3:
             print("** value missing **")
             return False
-        if len(arg) != 4:
+        if len(arg) > 4:
             raise TypeError("Incorrect number of arguments")
             return False
         if arg[0] not in classes:
