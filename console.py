@@ -6,8 +6,15 @@ import cmd
 import sys
 import models
 from models.base_model import BaseModel
+from models.user import User
+from models.state import State
+from models.city import City
+from models.amenity import Amenity
+from models.place import Place
+from models.review import Review
 
-classes = {"BaseModel": BaseModel}
+classes = {"BaseModel": BaseModel, "User": User, "State": State, "City": City,
+           "Amenity": Amenity, "Place": Place, "Review": Review}
 
 
 class HBNBCommand(cmd.Cmd):
@@ -64,8 +71,9 @@ class HBNBCommand(cmd.Cmd):
             return False
         else:
             key = arg[0] + "." + arg[1]
-            if key in models.storage.all():
-                print(models.storage.all()[key])
+            storage = models.storage.all()
+            if key in storage:
+                print(storage[key])
             else:
                 print("** no instance found **")
 
@@ -86,8 +94,9 @@ class HBNBCommand(cmd.Cmd):
             return False
         else:
             key = arg[0] + "." + arg[1]
-            if key in models.storage.all():
-                del(models.storage.all()[key])
+            storage = models.storage.all()
+            if key in storage:
+                del(storage[key])
                 models.storage.save
             else:
                 print("** no instance found **")
@@ -103,9 +112,10 @@ class HBNBCommand(cmd.Cmd):
             print(objList)
         if len(arg) == 1:
             if arg[0] in classes:
-                for key in models.storage.all():
+                storage = models.storage.all()
+                for key in storage:
                     if arg[0] in key:
-                        objList.append(str(models.storage.all()[key]))
+                        objList.append(str(storage[key]))
                 print(objList)
             else:
                 print("** class doesn't exist **")
@@ -135,8 +145,9 @@ class HBNBCommand(cmd.Cmd):
             return False
         else:
             key = arg[0] + "." + arg[1]
-            if key in models.storage.all():
-                setattr(models.storage.all()[key], arg[2], arg[3])
+            storage = models.storage.all()
+            if key in storage:
+                setattr(storage[key], arg[2], arg[3])
                 models.storage.save()
             else:
                 print("** no instance found **")
