@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from uuid import uuid4
+import models
 
 
 class BaseModel():
@@ -17,12 +18,13 @@ class BaseModel():
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
                     self.__dict__[key] = datetime.strptime(value, dateformat)
-                else:
+                elif key != "__class__":
                     self.__dict__[key] = value
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
             self.updated_at = datetime.now()
+        models.storage.new(self)
 
     def __str__(self):
         """
@@ -35,6 +37,7 @@ class BaseModel():
             changes the updated_at time of an instance
         """
         self.updated_at = datetime.now()
+        models.storage.save()
 
     def to_dict(self):
         """
