@@ -1,32 +1,28 @@
 #!/usr/bin/python3
+"""File storage"""
+
 import json
 from models.base_model import BaseModel
 
+classes = {"BaseModel": BaseModel}
+
 
 class FileStorage():
-    """
-        a class that serializes and deserializes between JSON and instances
-    """
+    """a class that serializes and deserializes between JSON and instances"""
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """
-            returns the dictionary __objects
-        """
+        """Returns the dictionary __objects"""
         return self.__objects
 
     def new(self, obj):
-        """
-            sets the obj with key <obj class name>.id
-        """
+        """Sets the object with key <obj class name>.id"""
         key = obj.__class__.__name__ + "." + obj.id
         self. __objects[key] = obj
 
     def save(self):
-        """
-            serialize __objects to the JSON file
-        """
+        """Serialize __objects to the JSON file"""
         my_obj = {}
         for key in self.__objects:
             my_obj[key] = self.__objects[key].to_dict()
@@ -34,12 +30,9 @@ class FileStorage():
             json.dump(my_obj, myfile)
 
     def reload(self):
-        """
-            deserializes the JSON file to __objects
-        """
-        classes = {"BaseModel": BaseModel}
+        """Deserializes the JSON file to __objects"""
         try:
-            with open(self.__file_path) as myfile:
+            with open(self.__file_path, "r") as myfile:
                 jsondict = json.load(myfile)
                 for key in jsondict:
                     classname = jsondict[key]["__class__"]
