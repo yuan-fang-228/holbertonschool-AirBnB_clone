@@ -2,10 +2,13 @@
 """Console for holbertonschool-AirBnB_clone"""
 
 
-import cmd, sys, models
+import cmd
+import sys
+import models
 from models.base_model import BaseModel
 
 classes = {"BaseModel": BaseModel}
+
 
 class HBNBCommand(cmd.Cmd):
     """
@@ -50,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if len(arg) == 1 :
+        if len(arg) == 1:
             print("** instance id missing **")
             return False
         if len(arg) > 2:
@@ -66,7 +69,7 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if len(arg) == 1 :
+        if len(arg) == 1:
             print("** instance id missing **")
             return False
         if len(arg) > 2:
@@ -76,11 +79,11 @@ class HBNBCommand(cmd.Cmd):
             print("** class doesn't exist **")
             return False
 
-    def do_all(self,args):
+    def do_all(self, args):
         """Prints all string representation of all instances
         Based or not on the class name\n"""
 
-    def do_update(self,args):
+    def do_update(self, args):
         """Updates an instance
         Based on class name and id
         By adding or updating attribute"""
@@ -103,6 +106,7 @@ class HBNBCommand(cmd.Cmd):
         if arg[0] not in classes:
             print("** class doesn't exist **")
             return False
+
 
 if __name__ == '__main__':
     """our main"""
