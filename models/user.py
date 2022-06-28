@@ -9,9 +9,8 @@ class User(BaseModel):
         User class for the Airbnb project
         with class attributes
     """
-  
+
     email = ""
     password = ""
     first_name = ""
     last_name = ""
-

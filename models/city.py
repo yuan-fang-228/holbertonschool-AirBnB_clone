@@ -4,8 +4,10 @@
 from models.base_model import BaseModel
 
 
-class City:
+class City(BaseModel):
     """
         City class for the Airbnb project
     """
-    pass
+
+    state_id = ""
+    name = ""
