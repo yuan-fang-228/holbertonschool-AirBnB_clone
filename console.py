@@ -191,10 +191,12 @@ class HBNBCommand(cmd.Cmd):
                 command = arg[1].split("(")
                 command[1] = command[1].replace(")", "")
                 if command[0] == "show":
+                    command[1] = command[1].strip('\"')
                     new_cmd = arg[0] + " " + command[1]
                     self.do_show(new_cmd)
                     return
                 if command[0] == "destroy":
+                    command[1] = command[1].strip('\"')
                     new_cmd = arg[0] + " " + command[1]
                     self.do_destroy(new_cmd)
                     return
