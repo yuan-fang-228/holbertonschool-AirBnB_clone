@@ -97,7 +97,7 @@ class HBNBCommand(cmd.Cmd):
             storage = models.storage.all()
             if key in storage:
                 del(storage[key])
-                models.storage.save
+                models.storage.save()
             else:
                 print("** no instance found **")
 
@@ -146,6 +146,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             key = arg[0] + "." + arg[1]
             storage = models.storage.all()
+            arg[3] = arg[3].strip('\"')
             if key in storage:
                 setattr(storage[key], arg[2], arg[3])
                 models.storage.save()
@@ -154,5 +155,4 @@ class HBNBCommand(cmd.Cmd):
 
 
 if __name__ == '__main__':
-    """our main"""
     HBNBCommand().cmdloop()
