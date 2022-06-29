@@ -184,8 +184,20 @@ class HBNBCommand(cmd.Cmd):
             if arg[0] in classes:
                 if arg[1] == "all()":
                     self.do_all(arg[0])
+                    return
                 if arg[1] == "count()":
                     self.do_count(arg[0])
+                    return
+                command = arg[1].split("(")
+                command[1] = command[1].replace(")", "")
+                if command[0] == "show":
+                    new_cmd = arg[0] + " " + command[1]
+                    self.do_show(new_cmd)
+                    return
+                if command[0] == "destroy":
+                    new_cmd = arg[0] + " " + command[1]
+                    self.do_destroy(new_cmd)
+                    return
             else:
                 print("** class doesn't exist **")
                 return False
