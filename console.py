@@ -119,6 +119,9 @@ class HBNBCommand(cmd.Cmd):
                 print(objList)
             else:
                 print("** class doesn't exist **")
+        if len(arg) > 1:
+            raise TypeError("Incorrect number of arguments")
+            return False
 
     def do_update(self, args):
         """Updates an instance
@@ -152,6 +155,42 @@ class HBNBCommand(cmd.Cmd):
                 models.storage.save()
             else:
                 print("** no instance found **")
+
+    def do_count(self, args):
+        """retrieve the number of instances of a class\n"""
+        arg = args.split()
+        if len(args) == 0:
+            print("** class name missing **")
+            return False
+        if len(arg) == 1:
+            if arg[0] in classes:
+                storage = models.storage.all()
+                count = 0
+                for key in storage:
+                    if arg[0] in key:
+                        count += 1
+                print(count)
+            else:
+                print("** class doesn't exist **")
+                return False
+        if len(arg) > 1:
+            raise TypeError("Incorrect number of arguments")
+            return False
+
+    def default(self, args):
+        """Handle cmd in format <class name>.cmd()\n"""
+        arg = args.split(".")
+        if len(arg) > 1:
+            if arg[0] in classes:
+                if arg[1] == "all()":
+                    self.do_all(arg[0])
+                if arg[1] == "count()":
+                    self.do_count(arg[0])
+            else:
+                print("** class doesn't exist **")
+                return False
+        else:
+            return cmd.Cmd.default(self, args)
 
 
 if __name__ == '__main__':
