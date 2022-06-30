@@ -187,16 +187,19 @@ class HBNBCommand(cmd.Cmd):
                     return
                 command = arg[1].split("(")
                 command[1] = command[1].replace(")", "")
-                if command[0] == "show":
+                if command[0] == "show" or command[0] == "destroy":
                     command[1] = command[1].strip('\"')
                     new_cmd = arg[0] + " " + command[1]
-                    self.do_show(new_cmd)
+                    if command[0] == "show":
+                        self.do_show(new_cmd)
+                    else:
+                        self.do_destroy(new_cmd)
                     return
-                if command[0] == "destroy":
-                    command[1] = command[1].strip('\"')
-                    new_cmd = arg[0] + " " + command[1]
-                    self.do_destroy(new_cmd)
-                    return
+                if command[0] == "update":
+                    detail = command[1].replace('"', '').split(", ")
+                    new_cmd = arg[0] + " " + detail[0]\
+                        + " " + detail[1] + " " + detail[2]
+                    self.do_update(new_cmd)
             else:
                 print("** class doesn't exist **")
                 return False
