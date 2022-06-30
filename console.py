@@ -44,15 +44,15 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
-        if len(arg) > 1:
-            raise TypeError("Incorrect number of arguments")
-        if args in classes:
-            instance = eval(str(args) + "()")
-            instance.save()
-            print(instance.id)
-        else:
+        if arg[0] not in classes:
             print("** class doesn't exist **")
             return False
+        if len(arg) > 1:
+            print("Incorrect number of arguments")
+            return False
+        instance = eval(str(args) + "()")
+        instance.save()
+        print(instance.id)
 
     def do_show(self, args):
         """Prints the string representation of an instance\n"""
@@ -60,22 +60,21 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
+        if arg[0] not in classes:
+            print("** class doesn't exist **")
+            return False
         if len(arg) == 1:
             print("** instance id missing **")
             return False
         if len(arg) > 2:
-            raise TypeError("Incorrect number of arguments")
+            print("Incorrect number of arguments")
             return False
-        if arg[0] not in classes:
-            print("** class doesn't exist **")
-            return False
+        key = arg[0] + "." + arg[1]
+        storage = models.storage.all()
+        if key in storage:
+            print(storage[key])
         else:
-            key = arg[0] + "." + arg[1]
-            storage = models.storage.all()
-            if key in storage:
-                print(storage[key])
-            else:
-                print("** no instance found **")
+            print("** no instance found **")
 
     def do_destroy(self, args):
         """Deletes an instance based on the class name and id\n"""
@@ -83,23 +82,22 @@ class HBNBCommand(cmd.Cmd):
         if len(args) == 0:
             print("** class name missing **")
             return False
+        if arg[0] not in classes:
+            print("** class doesn't exist **")
+            return False
         if len(arg) == 1:
             print("** instance id missing **")
             return False
         if len(arg) > 2:
-            raise TypeError("Incorrect number of arguments")
+            print("Incorrect number of arguments")
             return False
-        if arg[0] not in classes:
-            print("** class doesn't exist **")
-            return False
+        key = arg[0] + "." + arg[1]
+        storage = models.storage.all()
+        if key in storage:
+            del(storage[key])
+            models.storage.save()
         else:
-            key = arg[0] + "." + arg[1]
-            storage = models.storage.all()
-            if key in storage:
-                del(storage[key])
-                models.storage.save()
-            else:
-                print("** no instance found **")
+            print("** no instance found **")
 
     def do_all(self, args):
         """Prints all string representation of all instances
@@ -120,7 +118,7 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** class doesn't exist **")
         if len(arg) > 1:
-            raise TypeError("Incorrect number of arguments")
+            print("Incorrect number of arguments")
             return False
 
     def do_update(self, args):
@@ -130,6 +128,9 @@ class HBNBCommand(cmd.Cmd):
         arg = args.split()
         if len(args) == 0:
             print("** class name missing **")
+            return False
+        if arg[0] not in classes:
+            print("** class doesn't exist **")
             return False
         if len(arg) == 1:
             print("** instance id missing **")
@@ -141,20 +142,16 @@ class HBNBCommand(cmd.Cmd):
             print("** value missing **")
             return False
         if len(arg) > 4:
-            raise TypeError("Incorrect number of arguments")
+            print("Incorrect number of arguments")
             return False
-        if arg[0] not in classes:
-            print("** class doesn't exist **")
-            return False
+        key = arg[0] + "." + arg[1]
+        storage = models.storage.all()
+        arg[3] = arg[3].strip('\"')
+        if key in storage:
+            setattr(storage[key], arg[2], arg[3])
+            models.storage.save()
         else:
-            key = arg[0] + "." + arg[1]
-            storage = models.storage.all()
-            arg[3] = arg[3].strip('\"')
-            if key in storage:
-                setattr(storage[key], arg[2], arg[3])
-                models.storage.save()
-            else:
-                print("** no instance found **")
+            print("** no instance found **")
 
     def do_count(self, args):
         """retrieve the number of instances of a class\n"""
@@ -174,7 +171,7 @@ class HBNBCommand(cmd.Cmd):
                 print("** class doesn't exist **")
                 return False
         if len(arg) > 1:
-            raise TypeError("Incorrect number of arguments")
+            print("Incorrect number of arguments")
             return False
 
     def default(self, args):
