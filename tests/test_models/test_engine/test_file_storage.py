@@ -20,7 +20,7 @@ class test_filestorage(unittest.TestCase):
         """ removes file after each test is completed """
         try:
             os.remove('file.json')
-        except:
+        except Exception:
             pass
 
     def test_all(self):
@@ -49,12 +49,13 @@ class test_filestorage(unittest.TestCase):
         print(myobj)
         self.assertEqual(self.new.to_dict()['id'], myobj.to_dict()['id'])
         os.remove('file.json')
-        with open ('file.json', 'w') as myfile:
+        with open('file.json', 'w') as myfile:
             pass
         with self.assertRaises(ValueError):
             storage.reload()
         os.remove('file.json')
         self.assertEqual(storage.reload(), None)
+
 
 if __name__ == "__main__":
     unittest.main()
