@@ -73,11 +73,32 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(self.am1.name, "gym")
         self.assertEqual(self.am.name, "")
 
+    def test_id_value(self):
+        """ test id value is unique """
+        self.assertNotEqual(self.am.id, self.am1.id)
+
     def test_attr_type(self):
         """ test the type of id, created_at and updated_at """
         self.assertEqual(type(self.am.id), str)
         self.assertEqual(type(self.am.created_at), datetime.datetime)
         self.assertEqual(type(self.am.updated_at), datetime.datetime)
+
+    def test_str(self):
+        """test __str__method"""
+        strclass = f"[Amenity] ({self.am.id}) {self.am.__dict__}"
+        self.assertEqual(str(self.am), strclass)
+
+    def test_save(self):
+        """ test save method for class Amenity """
+        self.am.save()
+        self.assertNotEqual(self.am.created_at, self.am.updated_at)
+
+    def test_dict(self):
+        """ test to dict method"""
+        dic = {"__class__": "Amenity", "id": self.am.id,
+               "created_at": self.am.created_at.isoformat(),
+               "updated_at": self.am.updated_at.isoformat()}
+        self.assertDictEqual(dic, self.am.to_dict())
 
 
 if __name__ == "__main__":
