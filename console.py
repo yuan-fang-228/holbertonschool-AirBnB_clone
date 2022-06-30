@@ -212,10 +212,12 @@ class HBNBCommand(cmd.Cmd):
                                     + " " + attrName + " " + attrValue
                                 self.do_update(new_cmd)
                             i += 1
+                        return
                     else:
                         new_cmd = arg[0] + " " + detail[0]\
                             + " " + detail[1] + " " + detail[2]
                         self.do_update(new_cmd)
+                        return
                 return cmd.Cmd.default(self, args)
             else:
                 print("** class doesn't exist **")
