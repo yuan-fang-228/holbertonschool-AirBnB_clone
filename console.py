@@ -196,10 +196,28 @@ class HBNBCommand(cmd.Cmd):
                         self.do_destroy(new_cmd)
                     return
                 if command[0] == "update":
-                    detail = command[1].replace('"', '').split(", ")
-                    new_cmd = arg[0] + " " + detail[0]\
-                        + " " + detail[1] + " " + detail[2]
-                    self.do_update(new_cmd)
+                    command[1] = command[1].replace("{", "")
+                    command[1] = command[1].replace("}", "")
+                    command[1] = command[1].replace(".", "")
+                    command[1] = command[1].replace('"', '')
+                    command[1] = command[1].replace("'", "")
+                    detail = command[1].split(", ")
+                    if ": " in command[1]:
+                        objId = detail[0]
+                        for i in range(len(detail)):
+                            if ": " in detail[i]:
+                                upDate = detail[i].split(": ")
+                                attrName = upDate[0]
+                                attrValue = upDate[1]
+                                new_cmd = arg[0] + " " + detail[0]\
+                                    + " " + attrName + " " + attrValue
+                                self.do_update(new_cmd)
+                            i += 1
+                    else:
+                        new_cmd = arg[0] + " " + detail[0]\
+                            + " " + detail[1] + " " + detail[2]
+                        self.do_update(new_cmd)
+                return cmd.Cmd.default(self, args)
             else:
                 print("** class doesn't exist **")
                 return False
