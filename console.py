@@ -21,7 +21,6 @@ class HBNBCommand(cmd.Cmd):
     """
     our cmd loop interpreter
     """
-    intro = 'Welcome to the shell. Type help or ? to list commands.\n'
     prompt = '(hbnb) '
 
     def do_quit(self, args):
