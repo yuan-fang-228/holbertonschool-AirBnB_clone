@@ -36,10 +36,10 @@ This project is written in Python 3.0, and use the pycodestyle(version 2.8.*)
 | tests/test_models/engine | test_console.py | unittest for functionalities of console.py |
 
 ### How to start the command interpreter
-* git clone https://github.com/yuan-fang-228/holbertonschool-AirBnB_clone.git
-* run ./console under the project folder to start this interpreter.
-* type in built-in commands
-* use "quit" or EOF to quit the interpreter
+1. git clone https://github.com/yuan-fang-228/holbertonschool-AirBnB_clone.git
+1. run ./console under the project folder to start this interpreter.
+1. type in built-in commands
+1. use "quit" or EOF to quit the interpreter
 ### Execution
 This interpreter work in both interactive and non-interactive mode.
 * Interactive Mode
