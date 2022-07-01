@@ -9,14 +9,14 @@ Our command interprer is able to manage the objects of our project:
 * Do operations on objects (count, compute stats, etc…)
 * Update attributes of an object
 * Destroy an object
-#### Programming languge
+### Programming languge
 This project is written in Python 3.0, and use the pycodestyle(version 2.8.*)
 ### Description of each files:
 | Folder Name | File Name | Description |
 |-------------|-----------|-------------|
 | | AUTHORS | lists all individuals having contributed content to the repository |
 | | README.md | contains the information for the user about the project |
-| | console.py | contains the entry point of the command interpreter |
+| | console.py | contains the entry point of the command interpreter, all the commands are implemented in this file |
 | models | base_model.py | defines all common attributes/methods for other classes |
 | models | user.py | inherits from BaseModel, defines class User |
 | models | amenity.py | inherits from BaseModel, defines class Amenity |
@@ -36,9 +36,87 @@ This project is written in Python 3.0, and use the pycodestyle(version 2.8.*)
 | tests/test_models/engine | test_console.py | unittest for functionalities of console.py |
 
 ### How to start the command interpreter
+* git clone https://github.com/yuan-fang-228/holbertonschool-AirBnB_clone.git
+* run ./console under the project folder to start this interpreter.
+* type in built-in commands
+* use "quit" or EOF to quit the interpreter
+### Execution
+This interpreter work in both interactive and non-interactive mode.
+* Interactive Mode
+```
+$ ./console.py
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+
+(hbnb) 
+(hbnb) 
+(hbnb) quit
+$
+```
+* Non-interactive Mode
+```
+$ echo "help" | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+$ cat test_help
+help
+$
+$ cat test_help | ./console.py
+(hbnb)
+
+Documented commands (type help <topic>):
+========================================
+EOF  help  quit
+(hbnb) 
+$
+```
 ### Built-in commands
+* EOF: quit the program.
+* quit: quit the program.
+* all: Prints all string representation of all instances based.
+* all \<class name\>: print all the string representation of all instances of one class.
+* help: list all the commands in this console.
+* help \<command\>: provide the document of the command.
+* \<class name\> count: retrieve the number of instances of a class.
+* create \<class name\>: Creates a new instance of the class, saves it (to the JSON file) and prints the id.
+* destroy \<class name\> \<id\>: Deletes an instance based on the class name and id (save the change into the JSON file).
+* show \<class name\> \<id\>: Prints the string representation of an instance based on the class name and id.
+* update \<class name\> \<id\> \<attribute name\> "\<attribute value\>": Updates an instance based on the class name and id by adding or updating attribute (save the change into the JSON file).
 ### Examples
+```
+(hbnb) help
+
+Documented commands (type help <topic>):
+========================================
+EOF  all  count  create  destroy  help  quit  show  update
+
+(hbnb) help create
+Creates a new instance of BaseModel
+        saves it (to the JSON file) and prints the id
+
+(hbnb) create User
+e83b0b29-0f7d-40a1-9095-aa3dbe369d27
+(hbnb) destroy User e83b0b29-0f7d-40a1-9095-aa3dbe369d27
+(hbnb) show User e83b0b29-0f7d-40a1-9095-aa3dbe369d27
+** no instance found **
+(hbnb) quit
+```
 ### Unittesting
+All the test files can be executed by this command - 
+
+```python3 -m unittest discover tests```
+
+Or run tests file by file using this command -
+
+```python3 -m unittest tests/test_models/test_base_model.py```
 
 ### Authors
 * Cienna Nguyen
