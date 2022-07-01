@@ -36,7 +36,7 @@ class BaseModel():
         models.storage.save()
 
     def to_dict(self):
-        """returns a dict repr of an instance"""
+        """returns a dictionary representation of an instance"""
         my_dict = {}
         my_dict["__class__"] = self.__class__.__name__
         for key, value in self.__dict__.items():
