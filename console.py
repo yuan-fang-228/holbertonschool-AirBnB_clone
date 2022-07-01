@@ -146,6 +146,11 @@ class HBNBCommand(cmd.Cmd):
         key = arg[0] + "." + arg[1]
         storage = models.storage.all()
         arg[3] = arg[3].strip('\"')
+        argCheck = arg[3].replace(".", "")
+        if arg[3].isdigit():
+            arg[3] = int(arg[3])
+        elif argCheck.isdigit():
+            arg[3] = float(arg[3])
         if key in storage:
             setattr(storage[key], arg[2], arg[3])
             models.storage.save()
