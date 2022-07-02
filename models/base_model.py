@@ -1,4 +1,7 @@
 #!/usr/bin/python3
+"""
+Class BaseModel
+"""
 from uuid import uuid4
 from datetime import datetime
 import models
@@ -6,49 +9,48 @@ import models
 
 class BaseModel:
     """
-    Base class
+    Base class for the Airbnb project
     """
     def __init__(self, *args, **kwargs):
         """
-        Initialize an instance of BaseModel
+        Initialises a BaseModel instance
         """
+        dateformat = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs:
             for key, value in kwargs.items():
                 if key == "created_at" or key == "updated_at":
-                    dttime_ob = datetime.strptime(value,
-                                                  '%Y-%m-%dT%H:%M:%S.%f')
-                    setattr(self, key, dttime_ob)
+                    self.__dict__[key] = datetime.strptime(value, dateformat)
                 elif key != "__class__":
-                    setattr(self, key, value)
+                    self.__dict__[key] = value
         else:
             self.id = str(uuid4())
             self.created_at = datetime.now()
-            self.updated_at = datetime.now()
+            self.updated_at = self.created_at
             models.storage.new(self)
+            models.storage.save()
 
     def __str__(self):
         """
-        Return a string representation of BaseModel
+        Returns the string of a BaseModel instance
         """
-        return f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}"
+        return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
         """
-        Updates the updated_at public instance attribute with the current
-        datetime
+        Changes the updated_at time of an instance
         """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
         """
-        Return a dictionary containing all key/values of __dict__
+        Returns a dictionary containing all keys/values of __dict__
         """
-        dic = {}
-        dic["__class__"] = self.__class__.__name__
-        for k, v in self.__dict__.items():
-            if isinstance(v, datetime):
-                dic[k] = v.isoformat()
+        my_dict = {}
+        my_dict["__class__"] = self.__class__.__name__
+        for key, value in self.__dict__.items():
+            if type(value) is datetime:
+                my_dict[key] = value.isoformat()
             else:
-                dic[k] = v
-        return dic
+                my_dict[key] = value
+        return my_dict
