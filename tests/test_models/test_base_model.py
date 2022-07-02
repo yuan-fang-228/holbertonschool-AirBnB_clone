@@ -80,8 +80,7 @@ class TestBase(unittest.TestCase):
     def test_to_dict(self):
         """ to_dict function test """
         j = self.new.to_dict()
-        self.assertEqual('James', j['name'])
-        self.assertEqual(27, j['my_number'])
+        self.assertEqual(j, self.new.to_dict())
 
     def test_id(self):
         """ testing id type"""
