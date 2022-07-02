@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Class BaseModel"""
+"""
+Class BaseModel
+"""
 
 from datetime import datetime
 from uuid import uuid4
@@ -11,7 +13,9 @@ class BaseModel:
     Base class for the Airbnb project
     """
     def __init__(self, *args, **kwargs):
-        """Initialises a BaseModel instance"""
+        """
+        Initialises a BaseModel instance
+        """
         dateformat = "%Y-%m-%dT%H:%M:%S.%f"
         if kwargs:
             for key, value in kwargs.items():
@@ -27,16 +31,22 @@ class BaseModel:
             models.storage.save()
 
     def __str__(self):
-        """Returns the string of a BaseModel instance"""
+        """
+        Returns the string of a BaseModel instance
+        """
         return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")
 
     def save(self):
-        """Changes the updated_at time of an instance"""
+        """
+        Changes the updated_at time of an instance
+        """
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
-        """Returns a dictionary containing all keys/values of __dict__"""
+        """
+        Returns a dictionary containing all keys/values of __dict__
+        """
         my_dict = {}
         my_dict["__class__"] = self.__class__.__name__
         for key, value in self.__dict__.items():
