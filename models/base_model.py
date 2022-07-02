@@ -6,7 +6,7 @@ from uuid import uuid4
 import models
 
 
-class BaseModel():
+class BaseModel:
     """
         Base class for the Airbnb project
     """
