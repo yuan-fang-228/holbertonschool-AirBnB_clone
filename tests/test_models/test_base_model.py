@@ -1,94 +1,92 @@
 #!/usr/bin/python3
-""" Unit test for the BaseModel class """
+""" Unit tests for BaseModel """
 
 import unittest
-import pycodestyle
-import json
-import os
-import inspect
-import datetime
-from uuid import uuid4
-
 from models.base_model import BaseModel
+from datetime import datetime
+from time import sleep
 
 
-class TestDocs(unittest.TestCase):
-    """ tests for docs and style """
+class TestBaseModel(unittest.TestCase):
+    """ Unit tests for BaseModel """
 
-    @classmethod
-    def setUpClass(cls):
-        """ setup for function doc tests"""
-        cls.base_funcs = inspect.getmembers(BaseModel, inspect.isfunction)
-
-    def test_class_style(self):
-        """Test that we conform to Pycodestyle."""
-        style = pycodestyle.StyleGuide(quiet=True)
-        result = style.check_files(['models/base_model.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
-
-    def test_test_style(self):
-        """Test that we conform to Pycodestyle."""
-        style = pycodestyle.StyleGuide(quiet=True)
-        result = style.check_files(['tests/test_models/test_base_model.py'])
-        self.assertEqual(result.total_errors, 0,
-                         "Found code style errors (and warnings).")
-
-    def test_class_doc(self):
-        """ Tests for class docs """
-        self.assertTrue(len(BaseModel.__doc__) >= 1)
-
-    def test_func_doc(self):
-        """Tests for docstrings in all functions """
-        for func in self.base_funcs:
-            self.assertTrue(len(func[1].__doc__) >= 1)
-
-
-class TestBase(unittest.TestCase):
-    """ tests for class functions and attributes """
-
-    @classmethod
-    def setUpClass(cls):
-        """ initialising for tests """
-        cls.new = BaseModel()
-        cls.new.name = 'James'
-        cls.new.my_number = 27
-
-    def test_init(self):
-        """ test __init__ function """
-        self.assertTrue(isinstance(self.new, BaseModel))
-        self.assertEqual(self.new.name, 'James')
-
-    def test_save(self):
-        """ test save function """
-        self.new.save()
-        key = 'BaseModel' + "." + self.new.id
-        with open('file.json', 'r') as myfile:
-            j = json.load(myfile)
-            self.assertEqual(j[key], self.new.to_dict())
-
-    def test_str(self):
-        """ test __str__ function """
-        self.assertEqual(str(self.new), '[{}] ({}) {}'.format('BaseModel',
-                         self.new.id, self.new.__dict__))
-
-    def test_to_dict(self):
-        """ to_dict function test """
-        j = self.new.to_dict()
-        self.assertEqual(self.new.to_dict(), j)
+    def test_instantiate(self):
+        """ Happy pass instantiate"""
+        self.assertEqual(BaseModel, type(BaseModel()))
 
     def test_id(self):
-        """ testing id type"""
-        self.assertEqual(type(self.new.id), str)
+        """ Happy pass public id string format """
+        self.assertEqual(str, type(BaseModel().id))
 
     def test_created_at(self):
-        """ test created_at type """
-        self.assertEqual(type(self.new.created_at), datetime.datetime)
+        """ Happy pass created at datetime """
+        self.assertEqual(datetime, type(BaseModel().created_at))
 
     def test_updated_at(self):
-        """ test updated_at type """
-        self.assertEqual(type(self.new.updated_at), datetime.datetime)
+        """ Happy pass updated at datetime """
+        self.assertEqual(datetime, type(BaseModel().updated_at))
+
+    def test_uid(self):
+        """ UID created at each instantiation """
+        base1 = BaseModel()
+        base2 = BaseModel()
+        self.assertNotEqual(base1.id, base2.id)
+
+    def test_instantiate_attrs(self):
+        """ Single instantiate and check attributes """
+        base1 = BaseModel()
+        self.assertEqual(type(base1.id), str)
+        self.assertEqual(type(base1.created_at), datetime)
+        self.assertEqual(type(base1.updated_at), datetime)
+
+    def test_instantiate_kwargs(self):
+        """ Single instantiate with kwargs """
+        dt = datetime.today()
+        base1 = BaseModel(
+            id="123", created_at=dt.isoformat(), updated_at=dt.isoformat()
+        )
+        self.assertEqual(base1.id, "123")
+        self.assertEqual(base1.created_at, dt)
+        self.assertEqual(base1.updated_at, dt)
+
+    def test_str(self):
+        """ ___str__ method is string """
+        base1 = BaseModel()
+        self.assertEqual(type(str(base1)), str)
+
+    def test_instantiate_arg(self):
+        """ invalid arg when instantiating """
+        with self.assertRaises(NameError) as e:
+            b1 = BaseModel(hello)
+        self.assertEqual(str(e.exception), "name 'hello' is not defined")
+
+    def test_save(self):
+        """ save method """
+        base1 = BaseModel()
+        sleep(2)
+        update = base1.updated_at
+        base1.save()
+        self.assertNotEqual(update, base1.updated_at)
+
+    def test_to_dict(self):
+        """ Happy pass to_dict method """
+        base1 = BaseModel()
+        self.assertTrue(dict, type(base1.to_dict))
+
+    def test_to_dict_add_attr(self):
+        """ add attribute to dict """
+        base1 = BaseModel()
+        base1.city = "LA"
+        base1.state = "California"
+        self.assertIn("city", base1.to_dict())
+        self.assertIn("state", base1.to_dict())
+
+    def test_to_dict_wrong_arg(self):
+        """ add an undefined arg """
+        base1 = BaseModel()
+        with self.assertRaises(NameError):
+            base1.to_dict(hello)
 
 
 if __name__ == "__main__":
-    unitest.main()
+    unittest.main()
