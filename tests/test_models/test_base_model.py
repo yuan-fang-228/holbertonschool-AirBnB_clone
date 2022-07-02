@@ -55,12 +55,12 @@ class TestBase(unittest.TestCase):
         cls.new.my_number = 27
 
     def test_init(self):
-        """ test init """
+        """ test __init__ function """
         self.assertTrue(isinstance(self.new, BaseModel))
         self.assertEqual(self.new.name, 'James')
 
     def test_save(self):
-        """ save function test """
+        """ test save function """
         self.new.save()
         key = 'BaseModel' + "." + self.new.id
         with open('file.json', 'r') as myfile:
@@ -68,7 +68,7 @@ class TestBase(unittest.TestCase):
             self.assertEqual(j[key], self.new.to_dict())
 
     def test_str(self):
-        """ __str__ override test """
+        """ test __str__ function """
         self.assertEqual(str(self.new), '[{}] ({}) {}'.format('BaseModel',
                          self.new.id, self.new.__dict__))
 
@@ -78,15 +78,15 @@ class TestBase(unittest.TestCase):
         self.assertEqual(self.new.to_dict(), j)
 
     def test_id(self):
-        """ testing id """
+        """ testing id type"""
         self.assertEqual(type(self.new.id), str)
 
     def test_created_at(self):
-        """ created_at_test """
+        """ test created_at type """
         self.assertEqual(type(self.new.created_at), datetime.datetime)
 
     def test_updated_at(self):
-        """ updated_at_test """
+        """ test updated_at type """
         self.assertEqual(type(self.new.updated_at), datetime.datetime)
 
 
