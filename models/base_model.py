@@ -36,11 +36,11 @@ class BaseModel:
         models.storage.save()
 
     def to_dict(self):
-        """Returns a dictionary containing all keys/values of __dict__ of the instance"""
+        """Returns a dictionary containing all keys/values of __dict__"""
         my_dict = {}
         my_dict["__class__"] = self.__class__.__name__
         for key, value in self.__dict__.items():
-            if isinstance(value, datetime):
+            if type(value) is datetime:
                 my_dict[key] = value.isoformat()
             else:
                 my_dict[key] = value
