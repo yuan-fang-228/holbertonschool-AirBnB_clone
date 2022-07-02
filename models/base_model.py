@@ -8,7 +8,7 @@ import models
 
 class BaseModel:
     """
-        Base class for the Airbnb project
+    Base class for the Airbnb project
     """
     def __init__(self, *args, **kwargs):
         """Initialises a BaseModel instance"""
@@ -40,7 +40,7 @@ class BaseModel:
         my_dict = {}
         my_dict["__class__"] = self.__class__.__name__
         for key, value in self.__dict__.items():
-            if type(value) is datetime:
+            if isinstance(value, datetime):
                 my_dict[key] = value.isoformat()
             else:
                 my_dict[key] = value
