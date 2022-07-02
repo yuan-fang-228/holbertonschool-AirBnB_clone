@@ -79,9 +79,9 @@ class TestBase(unittest.TestCase):
         self.assertEqual(27, j['my_number'])
 
     def test_init_kwargs(self):
-         """ test __init__ with key word args """
-         base = BaseModel(id="abc")
-         self.assertEqual(base.id, 'abc')
+        """ test __init__ with key word args """
+        base = BaseModel(id="abc")
+        self.assertEqual(base.id, 'abc')
 
     def test_id(self):
         """ testing id type"""
