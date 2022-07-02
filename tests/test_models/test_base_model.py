@@ -55,6 +55,7 @@ class TestBase(unittest.TestCase):
         cls.new.my_number = 27
 
     def test_init(self):
+        """ test init """
         self.assertTrue(isinstance(self.new, BaseModel))
         self.assertEqual(self.new.name, 'James')
 
